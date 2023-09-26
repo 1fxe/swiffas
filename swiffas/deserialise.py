@@ -39,7 +39,7 @@ class Unpackable (object):
 			values = []
 			objsize = 0
 
-			for i in xrange (size):
+			for i in range (size):
 				if remaining:
 					subremaining = remaining - objsize
 				else:
@@ -81,10 +81,10 @@ class Unpackable (object):
 		# keep walking until we find \0
 		if size is None:
 			str_end = data.index ('\0', offset, offset + remaining)
-			value = unicode(data[offset : str_end], 'utf-8')
+			value = str(data[offset : str_end], 'utf-8')
 			objsize = len(value) + 1
 		else:
-			value = unicode(data[offset : offset + size], 'utf-8')
+			value = str(data[offset : offset + size], 'utf-8')
 			objsize = size
 		
 		return (value, objsize)
@@ -99,7 +99,7 @@ class Unpackable (object):
 			return (None, 0)
 		elif fmt == bytes:
 			return self._unpack_bytes (data, offset, remaining, size)
-		elif fmt == unicode:
+		elif fmt == str:
 			return self._unpack_string (data, offset, remaining, size)
 		elif isinstance (fmt, list):
 			return self._unpack_from_struct (fmt, data, offset, remaining)
@@ -108,7 +108,7 @@ class Unpackable (object):
 			try:
 				new_fmt = fmt[size]
 			except KeyError:
-				print "failed to find", size, "in type table", fmt
+				print("failed to find", size, "in type table", fmt)
 				raise
 
 			return self._unpack_object (data, offset, remaining, new_fmt)
@@ -121,7 +121,7 @@ class Unpackable (object):
 
 			if size:
 				# array
-				for i in xrange (size):
+				for i in range (size):
 					thisval, thissize = self._unpack_ctype (data, offset, fmt)
 					objsize += thissize
 					offset += thissize
@@ -137,7 +137,7 @@ class Unpackable (object):
 		keys, self._size = self._unpack_from_struct (self._struct, data, offset, remaining, place_in_self=True)
 
 		self.__dict__.update (keys)
-		self._fields = keys.keys()
+		self._fields = list(keys.keys())
 	
 	def _unpack_from_struct (self, struct, data, offset, remaining, place_in_self=False):
 		structsize = 0
@@ -166,7 +166,7 @@ class Unpackable (object):
 			# okay, deserialise it
 			if size == False and type(fmt) != dict:
 				# XXX: really do set strings to None, but not ~this~ way
-				if fmt != unicode:
+				if fmt != str:
 					continue
 
 			value, objsize = self._unpack_object (data, offset, remaining, fmt, size)
@@ -203,7 +203,7 @@ class Unpackable (object):
 			if size is not None and size is not int:
 				return None
 
-			if isinstance (fmt, str) or isinstance (fmt, unicode):
+			if isinstance (fmt, str) or isinstance (fmt, str):
 				single_field_size = calcsize (self.byte_order + fmt)
 			else:
 				# get size of child object
@@ -286,7 +286,7 @@ class AVM2Unpackable (Unpackable):
 			if size:
 				# array
 				value = []
-				for i in xrange (size):
+				for i in range (size):
 					thisval, thissize = self._unpack_vl (data, offset, remaining, fmt)
 					objsize += thissize
 					offset += thissize
@@ -300,7 +300,7 @@ class AVM2Unpackable (Unpackable):
 		elif fmt == 's24':
 			if size:
 				value = []
-				for i in xrange(size):
+				for i in range(size):
 					thisval, thissize = self._unpack_s24 (data, offset, remaining)
 					objsize += thissize
 					offset += thissize

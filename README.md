@@ -1,6 +1,6 @@
 # swiffas
 
-A small Python 2 library that provides:
+A small Python ~~2~~ 3 library that provides:
 
 * a SWF parser (enough tags to get the Actionscript stuff out, but a few others too)
 * a complete AVM2 parser (Actionscript 3 bytecode)

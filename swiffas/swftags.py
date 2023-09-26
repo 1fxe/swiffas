@@ -1,5 +1,5 @@
 from struct import unpack_from, calcsize
-from deserialise import BitObject, Unpackable
+from .deserialise import BitObject, Unpackable
 
 class SWFRectangle (BitObject):
 	_struct = [
@@ -37,13 +37,13 @@ class ShowFrame (ContentFreeTag):
 
 class EnableDebugger (Unpackable):
 	_struct = [
-		(unicode, 'password')
+		(str, 'password')
 	]
 
 class EnableDebugger2 (Unpackable):
 	_struct = [
 		('H', '_reserved'),
-		(unicode, 'password')
+		(str, 'password')
 	]
 
 class DefineBinaryData (Unpackable):
@@ -55,7 +55,7 @@ class DefineBinaryData (Unpackable):
 
 class Metadata (Unpackable):
 	_struct = [
-		(unicode, 'metadata')
+		(str, 'metadata')
 	]
 
 class ScriptLimits (Unpackable):
@@ -66,13 +66,13 @@ class ScriptLimits (Unpackable):
 
 class FrameLabel (Unpackable):
 	_struct = [
-		(unicode, 'name')
+		(str, 'name')
 	]
 
 class ExportedAsset (Unpackable):
 	_struct = [
 		('H', 'character_id'),
-		(unicode, 'name')
+		(str, 'name')
 	]
 
 class ExportAssets (Unpackable):
@@ -84,19 +84,19 @@ class ExportAssets (Unpackable):
 class ImportedAsset (Unpackable):
 	_struct = [
 		('H', 'character_id'),
-		(unicode, 'name')
+		(str, 'name')
 	]
 
 class ImportAssets (Unpackable):
 	_struct = [
-		(unicode, 'url'),
+		(str, 'url'),
 		('H', 'count'),
 		(ImportedAsset, 'assets', 'count')
 	]
 
 class ImportAssets2 (Unpackable):
 	_struct = [
-		(unicode, 'url'),
+		(str, 'url'),
 		('B', '_reserved_1'),
 		('B', '_reserved_2'),
 		('H', 'count'),
@@ -130,14 +130,14 @@ class ProductInfo (Unpackable):
 class DoABC (Unpackable):
 	_struct = [
 		('I', 'flags'),
-		(unicode, 'name'),
+		(str, 'name'),
 		(bytes, 'bytecode', None) # None indicates fills rest of tag
 	]
 
 class ExportedSymbol (Unpackable):
 	_struct = [
 		('H', 'character_id'),
-		(unicode, 'name') # AS3 class name
+		(str, 'name') # AS3 class name
 	] 
 
 class SymbolClass (Unpackable):

@@ -1,4 +1,4 @@
-from deserialise import AVM2Unpackable
+from .deserialise import AVM2Unpackable
 
 class AVM2Instruction (AVM2Unpackable):
 	pass

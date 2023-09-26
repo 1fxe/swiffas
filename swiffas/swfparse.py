@@ -2,11 +2,11 @@ import io
 import zlib
 # import pylzma - not a hard dependency; see loader below
 
-from deserialise import Unpackable, BitObject
+from .deserialise import Unpackable, BitObject
 from struct import unpack, unpack_from, calcsize
 
-from swftags import TAG_HANDLERS, SWFRectangle
-from StringIO import StringIO
+from .swftags import TAG_HANDLERS, SWFRectangle
+from io import StringIO
 
 class SWFHeader (Unpackable):
 	_struct = [
@@ -121,7 +121,7 @@ class SWFParser (object):
 
 				self.tags.append (tag)
 			elif warn_unknown_tags:
-				print 'warning: unknown tag', hdr.tagcode
+				print('warning: unknown tag', hdr.tagcode)
 
 			offset += hdr.length
 			file_offset += hdr.length
